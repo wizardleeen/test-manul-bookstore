@@ -28,4 +28,8 @@ class AuthorService {
         }
         return author!!.getBooks()
     }
+    
+    fn getAuthorCount() -> int {
+        return getAllAuthors().length
+    }
 }

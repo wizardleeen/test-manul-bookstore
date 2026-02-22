@@ -19,38 +19,16 @@ class BookstoreService {
         return Book.titleIdx.getAll(title)
     }
     
-    fn findBooksByAuthor(authorName: string) -> Book[] {
-        val authors = Author.nameIdx.getAll(authorName)
-        if (authors.length == 0) {
+    fn findBooksByAuthorName(authorName: string) -> Book[] {
+        val author = Author.nameIdx.getFirst(authorName)
+        if (author == null) {
             return Book.allIdx.getAll(false)  // empty result
         }
-        
-        val firstAuthor = authors[0]
-        var result = Book.authorIdx.getAll(firstAuthor)
-        
-        for (i in 1...authors.length) {
-            val authorBooks = Book.authorIdx.getAll(authors[i])
-            for (book in authorBooks) {
-                result = result + book
-            }
-        }
-        return result
+        return Book.authorIdx.getAll(author!!)
     }
     
     fn findBooksByGenre(genre: Genre) -> Book[] {
         return Book.genreIdx.getAll(genre)
-    }
-    
-    fn getAvailableBooks() -> Book[] {
-        val allBooks = getAllBooks()
-        var result = Book.allIdx.getAll(false)  // empty array
-        
-        for (book in allBooks) {
-            if (book.isInStock()) {
-                result = result + book
-            }
-        }
-        return result
     }
     
     fn addBook(title: string, authorName: string, isbn: string, 
@@ -72,5 +50,20 @@ class BookstoreService {
             return false
         }
         return book!!.updateStock(quantity)
+    }
+    
+    fn getBookCount() -> int {
+        return getAllBooks().length
+    }
+    
+    fn getInStockBookCount() -> int {
+        val books = getAllBooks()
+        var count = 0
+        for (book in books) {
+            if (book.isInStock()) {
+                count = count + 1
+            }
+        }
+        return count
     }
 }
