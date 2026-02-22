@@ -22,7 +22,8 @@ class Author(
     
     fn getActiveBooks() -> Book[] {
         if (!isActive) {
-            return []
+            val empty: Book[] = {}
+            return empty
         }
         return getBooks()
     }
