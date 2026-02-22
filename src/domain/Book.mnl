@@ -12,13 +12,19 @@ class Book(
     var stock: int,
     val genre: Genre,
     val description: string?,
-    val publishedYear: int?
+    val publishedYear: int?,
+    var rating: double
 ) {
     static val titleIdx = Index<string, Book>(false, b -> b.title)
     static val isbnIdx = Index<string, Book>(true, b -> b.isbn)
     static val authorIdx = Index<Author, Book>(false, b -> b.author)
     static val genreIdx = Index<Genre, Book>(false, b -> b.genre)
     static val allIdx = Index<bool, Book>(false, b -> true)
+    
+    // Migration function for new rating field (default 0.0 for existing records)
+    priv fn __rating__() -> double {
+        return 0.0
+    }
     
     fn isInStock() -> bool {
         return stock > 0
@@ -39,5 +45,17 @@ class Book(
     @Summary
     fn getAuthorName() -> string {
         return author.name
+    }
+    
+    fn updateRating(newRating: double) {
+        require(newRating >= 0.0 && newRating <= 5.0, "Rating must be between 0.0 and 5.0")
+        rating = newRating
+    }
+    
+    fn getRatingDisplay() -> string {
+        if (rating == 0.0) {
+            return "Not rated"
+        }
+        return rating + "/5.0"
     }
 }

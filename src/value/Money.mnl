@@ -2,15 +2,21 @@ package value
 
 value class Money(
     val amount: double,
-    val currency: string
+    val currency: string,
+    var discountPercent: int
 ) {
+    // Migration function for new discountPercent field (default 0 for existing records)
+    priv fn __discountPercent__() -> int {
+        return 0
+    }
+    
     fn add(other: Money) -> Money {
         require(currency == other.currency, "Cannot add different currencies")
-        return Money(amount + other.amount, currency)
+        return Money(amount + other.amount, currency, discountPercent)
     }
     
     fn multiply(factor: double) -> Money {
-        return Money(amount * factor, currency)
+        return Money(amount * factor, currency, discountPercent)
     }
     
     fn isGreaterThan(other: Money) -> bool {
@@ -18,7 +24,22 @@ value class Money(
         return amount > other.amount
     }
     
+    fn getDiscountedAmount() -> double {
+        if (discountPercent <= 0) {
+            return amount
+        }
+        return amount * (100.0 - discountPercent) / 100.0
+    }
+    
+    fn applyDiscount(percent: int) -> Money {
+        require(percent >= 0 && percent <= 100, "Discount percent must be between 0 and 100")
+        return Money(amount, currency, percent)
+    }
+    
     fn toString() -> string {
+        if (discountPercent > 0) {
+            return currency + " " + getDiscountedAmount() + " (" + discountPercent + "% off from " + amount + ")"
+        }
         return currency + " " + amount
     }
 }

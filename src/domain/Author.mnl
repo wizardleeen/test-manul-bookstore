@@ -4,12 +4,34 @@ class Author(
     @Summary
     val name: string,
     val bio: string?,
-    val birthYear: int?
+    val birthYear: int?,
+    var isActive: bool
 ) {
     static val nameIdx = Index<string, Author>(false, a -> a.name)
     static val allIdx = Index<bool, Author>(false, a -> true)
+    static val activeIdx = Index<bool, Author>(false, a -> a.isActive)
+    
+    // Migration function for new isActive field (default true for existing records)
+    priv fn __isActive__() -> bool {
+        return true
+    }
     
     fn getBooks() -> Book[] {
         return Book.authorIdx.getAll(this)
+    }
+    
+    fn getActiveBooks() -> Book[] {
+        if (!isActive) {
+            return []
+        }
+        return getBooks()
+    }
+    
+    fn setActive(active: bool) {
+        isActive = active
+    }
+    
+    fn getStatus() -> string {
+        return isActive ? "Active" : "Inactive"
     }
 }
