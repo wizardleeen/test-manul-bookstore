@@ -24,7 +24,7 @@ class AuthorService {
     fn getAuthorBooks(authorName: string) -> Book[] {
         val author = Author.nameIdx.getFirst(authorName)
         if (author == null) {
-            return Book[0]
+            return Book.allIdx.getAll(false)  // empty array
         }
         return author!!.getBooks()
     }
