@@ -4,56 +4,56 @@ import domain.Book
 
 @Bean
 class AuthorService {
-
+    
     fn getAllAuthors() -> Author[] {
         return Author.allIdx.getAll(true)
     }
-
+    
     fn getActiveAuthors() -> Author[] {
         return Author.activeIdx.getAll(true)
     }
-
+    
     fn findAuthorByName(name: string) -> Author? {
         return Author.nameIdx.getFirst(name)
     }
-
+    
     fn findAuthorsByName(name: string) -> Author[] {
         return Author.nameIdx.getAll(name)
     }
-
-    fn addAuthor(name: string, bio: string?, birthYear: int?, isActive: bool, country: string) -> Author {
-        return Author(name, bio, birthYear, isActive, country)
+    
+    fn addAuthor(name: string, bio: string?, birthYear: int?, isActive: bool) -> Author {
+        return Author(name, bio, birthYear, isActive)
     }
-
+    
     fn updateAuthorStatus(authorName: string, isActive: bool) -> bool {
         val author = Author.nameIdx.getFirst(authorName)
         if (author == null) {
             return false
         }
-        author\!\!.setActive(isActive)
+        author!!.setActive(isActive)
         return true
     }
-
+    
     fn getAuthorBooks(authorName: string) -> Book[] {
         val author = Author.nameIdx.getFirst(authorName)
         if (author == null) {
-            return Book.allIdx.getAll(false)
+            return Book.allIdx.getAll(false)  // empty array
         }
-        return author\!\!.getBooks()
+        return author!!.getBooks()
     }
-
+    
     fn getActiveAuthorBooks(authorName: string) -> Book[] {
         val author = Author.nameIdx.getFirst(authorName)
         if (author == null) {
-            return Book.allIdx.getAll(false)
+            return Book.allIdx.getAll(false)  // empty array
         }
-        return author\!\!.getActiveBooks()
+        return author!!.getActiveBooks()
     }
-
+    
     fn getAuthorCount() -> int {
         return getAllAuthors().length
     }
-
+    
     fn getActiveAuthorCount() -> int {
         return getActiveAuthors().length
     }
