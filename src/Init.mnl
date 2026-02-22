@@ -6,15 +6,17 @@ import value.Money
 @Bean
 class Init {
     {
-        val tolkien = Author("J.R.R. Tolkien", "English writer and philologist, best known for The Lord of the Rings", 1892, true, "UK")
-        val rowling = Author("J.K. Rowling", "British author, philanthropist, and screenwriter, best known for the Harry Potter series", 1965, true, "UK")
-        val martin = Author("George R.R. Martin", "American novelist and short story writer, best known for A Song of Ice and Fire", 1948, true, "US")
-        val christie = Author("Agatha Christie", "English writer known for her detective novels", 1890, true, "UK")
-        val orwell = Author("George Orwell", "English novelist and essayist, journalist and critic", 1903, true, "UK")
-
+        // Create some sample authors (with isActive = true)
+        val tolkien = Author("J.R.R. Tolkien", "English writer and philologist, best known for The Lord of the Rings", 1892, true)
+        val rowling = Author("J.K. Rowling", "British author, philanthropist, and screenwriter, best known for the Harry Potter series", 1965, true)
+        val martin = Author("George R.R. Martin", "American novelist and short story writer, best known for A Song of Ice and Fire", 1948, true)
+        val christie = Author("Agatha Christie", "English writer known for her detective novels", 1890, true)
+        val orwell = Author("George Orwell", "English novelist and essayist, journalist and critic", 1903, true)
+        
+        // Create some sample books (with rating 0.0 and Money with discountPercent 0)
         Book("The Hobbit", tolkien, "978-0547928227", Money(12.99, "USD", 0), 50, Genre.FANTASY, "A classic fantasy adventure tale", 1937, 4.5)
         Book("The Lord of the Rings: The Fellowship of the Ring", tolkien, "978-0547928210", Money(14.99, "USD", 0), 30, Genre.FANTASY, "First book in the epic Lord of the Rings trilogy", 1954, 4.8)
-        Book("Harry Potter and the Philosopher Stone", rowling, "978-0439708180", Money(10.99, "USD", 10), 75, Genre.FANTASY, "The first Harry Potter adventure", 1997, 4.7)
+        Book("Harry Potter and the Philosopher's Stone", rowling, "978-0439708180", Money(10.99, "USD", 10), 75, Genre.FANTASY, "The first Harry Potter adventure", 1997, 4.7)
         Book("Harry Potter and the Chamber of Secrets", rowling, "978-0439064873", Money(10.99, "USD", 10), 60, Genre.FANTASY, "The second Harry Potter adventure", 1998, 4.4)
         Book("A Game of Thrones", martin, "978-0553103540", Money(15.99, "USD", 5), 40, Genre.FANTASY, "First book in A Song of Ice and Fire series", 1996, 4.6)
         Book("Murder on the Orient Express", christie, "978-0062693662", Money(9.99, "USD", 0), 25, Genre.MYSTERY, "A classic Hercule Poirot mystery", 1934, 4.3)
