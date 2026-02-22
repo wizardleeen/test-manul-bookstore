@@ -1,0 +1,35 @@
+package domain
+import domain.Author
+import domain.Genre
+import value.Money
+
+class Book(
+    @Summary
+    val title: string,
+    @Summary
+    val author: Author,
+    val isbn: string,
+    @Summary
+    val price: Money,
+    var stock: int,
+    val genre: Genre,
+    val description: string?,
+    val publishedYear: int?
+) {
+    static val titleIdx = Index<string, Book>(false, b -> b.title)
+    static val isbnIdx = Index<string, Book>(true, b -> b.isbn)
+    static val authorIdx = Index<Author, Book>(false, b -> b.author)
+    static val genreIdx = Index<Genre, Book>(false, b -> b.genre)
+    
+    fn isInStock() -> bool {
+        return stock > 0
+    }
+    
+    fn updateStock(quantity: int) -> bool {
+        if (stock + quantity < 0) {
+            return false
+        }
+        stock = stock + quantity
+        return true
+    }
+}

@@ -1,0 +1,62 @@
+package service
+import domain.Book
+import domain.Author
+import domain.Genre
+import value.Money
+
+@Bean
+class BookstoreService {
+    
+    fn getAllBooks() -> Book[] {
+        return Book.titleIdx.getAll()
+    }
+    
+    fn findBookByIsbn(isbn: string) -> Book? {
+        return Book.isbnIdx.getFirst(isbn)
+    }
+    
+    fn findBooksByTitle(title: string) -> Book[] {
+        return Book.titleIdx.getAll(title)
+    }
+    
+    fn findBooksByAuthor(authorName: string) -> Book[] {
+        val authors = Author.nameIdx.getAll(authorName)
+        val books: Book[] = []
+        authors.forEach(author -> {
+            val authorBooks = Book.authorIdx.getAll(author)
+            authorBooks.forEach(book -> {
+                books.add(book)
+            })
+        })
+        return books
+    }
+    
+    fn findBooksByGenre(genre: Genre) -> Book[] {
+        return Book.genreIdx.getAll(genre)
+    }
+    
+    fn getAvailableBooks() -> Book[] {
+        return getAllBooks().filter(book -> book.isInStock())
+    }
+    
+    fn addBook(title: string, authorName: string, isbn: string, 
+              amount: double, currency: string, stock: int, 
+              genre: Genre, description: string?, publishedYear: int?) -> Book {
+        val author = Author.nameIdx.getFirst(authorName)
+        require(author != null, "Author not found: " + authorName)
+        
+        val existingBook = Book.isbnIdx.getFirst(isbn)
+        require(existingBook == null, "Book with ISBN already exists: " + isbn)
+        
+        val price = Money(amount, currency)
+        return Book(title, author!!, isbn, price, stock, genre, description, publishedYear)
+    }
+    
+    fn updateBookStock(isbn: string, quantity: int) -> bool {
+        val book = Book.isbnIdx.getFirst(isbn)
+        if (book == null) {
+            return false
+        }
+        return book!!.updateStock(quantity)
+    }
+}

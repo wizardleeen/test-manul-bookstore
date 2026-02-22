@@ -1,0 +1,24 @@
+package value
+
+value class Money(
+    val amount: double,
+    val currency: string
+) {
+    fn add(other: Money) -> Money {
+        require(currency == other.currency, "Cannot add different currencies")
+        return Money(amount + other.amount, currency)
+    }
+    
+    fn multiply(factor: double) -> Money {
+        return Money(amount * factor, currency)
+    }
+    
+    fn isGreaterThan(other: Money) -> bool {
+        require(currency == other.currency, "Cannot compare different currencies")
+        return amount > other.amount
+    }
+    
+    fn toString() -> string {
+        return currency + " " + amount
+    }
+}

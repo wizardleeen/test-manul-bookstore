@@ -1,0 +1,20 @@
+package domain
+
+enum Genre {
+    FICTION,
+    NON_FICTION,
+    MYSTERY,
+    ROMANCE,
+    SCIENCE_FICTION,
+    FANTASY,
+    BIOGRAPHY,
+    HISTORY,
+    TECHNOLOGY,
+    BUSINESS,
+    HEALTH,
+    CHILDREN,
+    YOUNG_ADULT,
+    POETRY,
+    DRAMA
+;
+}

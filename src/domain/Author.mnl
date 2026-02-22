@@ -1,0 +1,14 @@
+package domain
+
+class Author(
+    @Summary
+    val name: string,
+    val bio: string?,
+    val birthYear: int?
+) {
+    static val nameIdx = Index<string, Author>(false, a -> a.name)
+    
+    fn getBooks() -> Book[] {
+        return Book.authorIdx.getAll(this)
+    }
+}

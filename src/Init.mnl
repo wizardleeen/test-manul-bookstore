@@ -1,0 +1,26 @@
+import domain.Author
+import domain.Book
+import domain.Genre
+import value.Money
+
+@Bean
+class Init {
+    {
+        // Create some sample authors
+        val tolkien = Author("J.R.R. Tolkien", "English writer and philologist, best known for The Lord of the Rings", 1892)
+        val rowling = Author("J.K. Rowling", "British author, philanthropist, and screenwriter, best known for the Harry Potter series", 1965)
+        val martin = Author("George R.R. Martin", "American novelist and short story writer, best known for A Song of Ice and Fire", 1948)
+        val christie = Author("Agatha Christie", "English writer known for her detective novels", 1890)
+        val orwell = Author("George Orwell", "English novelist and essayist, journalist and critic", 1903)
+        
+        // Create some sample books
+        Book("The Hobbit", tolkien, "978-0547928227", Money(12.99, "USD"), 50, Genre.FANTASY, "A classic fantasy adventure tale", 1937)
+        Book("The Lord of the Rings: The Fellowship of the Ring", tolkien, "978-0547928210", Money(14.99, "USD"), 30, Genre.FANTASY, "First book in the epic Lord of the Rings trilogy", 1954)
+        Book("Harry Potter and the Philosopher's Stone", rowling, "978-0439708180", Money(10.99, "USD"), 75, Genre.FANTASY, "The first Harry Potter adventure", 1997)
+        Book("Harry Potter and the Chamber of Secrets", rowling, "978-0439064873", Money(10.99, "USD"), 60, Genre.FANTASY, "The second Harry Potter adventure", 1998)
+        Book("A Game of Thrones", martin, "978-0553103540", Money(15.99, "USD"), 40, Genre.FANTASY, "First book in A Song of Ice and Fire series", 1996)
+        Book("Murder on the Orient Express", christie, "978-0062693662", Money(9.99, "USD"), 25, Genre.MYSTERY, "A classic Hercule Poirot mystery", 1934)
+        Book("1984", orwell, "978-0452284234", Money(13.99, "USD"), 35, Genre.FICTION, "A dystopian social science fiction novel", 1949)
+        Book("Animal Farm", orwell, "978-0451526342", Money(8.99, "USD"), 45, Genre.FICTION, "A satirical allegorical novella", 1945)
+    }
+}

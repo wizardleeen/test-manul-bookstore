@@ -1,0 +1,31 @@
+package service
+import domain.Author
+import domain.Book
+
+@Bean
+class AuthorService {
+    
+    fn getAllAuthors() -> Author[] {
+        return Author.nameIdx.getAll()
+    }
+    
+    fn findAuthorByName(name: string) -> Author? {
+        return Author.nameIdx.getFirst(name)
+    }
+    
+    fn findAuthorsByName(name: string) -> Author[] {
+        return Author.nameIdx.getAll(name)
+    }
+    
+    fn addAuthor(name: string, bio: string?, birthYear: int?) -> Author {
+        return Author(name, bio, birthYear)
+    }
+    
+    fn getAuthorBooks(authorName: string) -> Book[] {
+        val author = Author.nameIdx.getFirst(authorName)
+        if (author == null) {
+            return []
+        }
+        return author!!.getBooks()
+    }
+}
