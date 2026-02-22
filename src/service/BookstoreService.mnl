@@ -8,7 +8,7 @@ import value.Money
 class BookstoreService {
     
     fn getAllBooks() -> Book[] {
-        return Book.titleIdx.getAll()
+        return Book.titleIdx.entries()
     }
     
     fn findBookByIsbn(isbn: string) -> Book? {
@@ -21,13 +21,13 @@ class BookstoreService {
     
     fn findBooksByAuthor(authorName: string) -> Book[] {
         val authors = Author.nameIdx.getAll(authorName)
-        val books: Book[] = []
-        authors.forEach(author -> {
+        val books = listOf<Book>()
+        for (author in authors) {
             val authorBooks = Book.authorIdx.getAll(author)
-            authorBooks.forEach(book -> {
+            for (book in authorBooks) {
                 books.add(book)
-            })
-        })
+            }
+        }
         return books
     }
     
@@ -36,7 +36,14 @@ class BookstoreService {
     }
     
     fn getAvailableBooks() -> Book[] {
-        return getAllBooks().filter(book -> book.isInStock())
+        val allBooks = getAllBooks()
+        val availableBooks = listOf<Book>()
+        for (book in allBooks) {
+            if (book.isInStock()) {
+                availableBooks.add(book)
+            }
+        }
+        return availableBooks
     }
     
     fn addBook(title: string, authorName: string, isbn: string, 

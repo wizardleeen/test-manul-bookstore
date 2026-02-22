@@ -9,7 +9,6 @@ class Book(
     @Summary
     val author: Author,
     val isbn: string,
-    @Summary
     val price: Money,
     var stock: int,
     val genre: Genre,
@@ -31,5 +30,9 @@ class Book(
         }
         stock = stock + quantity
         return true
+    }
+    
+    fn getPriceDisplay() -> string {
+        return price.toString()
     }
 }
