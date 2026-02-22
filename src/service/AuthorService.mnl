@@ -6,7 +6,7 @@ import domain.Book
 class AuthorService {
     
     fn getAllAuthors() -> Author[] {
-        return Author.nameIdx.entries()
+        return Author.allIdx.getAll(true)
     }
     
     fn findAuthorByName(name: string) -> Author? {
@@ -24,7 +24,7 @@ class AuthorService {
     fn getAuthorBooks(authorName: string) -> Book[] {
         val author = Author.nameIdx.getFirst(authorName)
         if (author == null) {
-            return listOf<Book>()
+            return Book[0]
         }
         return author!!.getBooks()
     }

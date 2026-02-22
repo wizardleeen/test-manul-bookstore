@@ -6,7 +6,6 @@ import value.Money
 class Book(
     @Summary
     val title: string,
-    @Summary
     val author: Author,
     val isbn: string,
     val price: Money,
@@ -19,6 +18,7 @@ class Book(
     static val isbnIdx = Index<string, Book>(true, b -> b.isbn)
     static val authorIdx = Index<Author, Book>(false, b -> b.author)
     static val genreIdx = Index<Genre, Book>(false, b -> b.genre)
+    static val allIdx = Index<bool, Book>(false, b -> true)
     
     fn isInStock() -> bool {
         return stock > 0
@@ -34,5 +34,10 @@ class Book(
     
     fn getPriceDisplay() -> string {
         return price.toString()
+    }
+    
+    @Summary
+    fn getAuthorName() -> string {
+        return author.name
     }
 }
