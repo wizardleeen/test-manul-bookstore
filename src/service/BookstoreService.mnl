@@ -33,15 +33,15 @@ class BookstoreService {
     
     fn addBook(title: string, authorName: string, isbn: string, 
               amount: double, currency: string, stock: int, 
-              genre: Genre, description: string?, publishedYear: int?) -> Book {
+              genre: Genre, description: string?, publishedYear: int?, rating: double) -> Book {
         val author = Author.nameIdx.getFirst(authorName)
         require(author != null, "Author not found: " + authorName)
         
         val existingBook = Book.isbnIdx.getFirst(isbn)
         require(existingBook == null, "Book with ISBN already exists: " + isbn)
         
-        val price = Money(amount, currency)
-        return Book(title, author!!, isbn, price, stock, genre, description, publishedYear)
+        val price = Money(amount, currency, 0)  // no discount by default
+        return Book(title, author!!, isbn, price, stock, genre, description, publishedYear, rating)
     }
     
     fn updateBookStock(isbn: string, quantity: int) -> bool {
@@ -50,6 +50,15 @@ class BookstoreService {
             return false
         }
         return book!!.updateStock(quantity)
+    }
+    
+    fn updateBookRating(isbn: string, rating: double) -> bool {
+        val book = Book.isbnIdx.getFirst(isbn)
+        if (book == null) {
+            return false
+        }
+        book!!.updateRating(rating)
+        return true
     }
     
     fn getBookCount() -> int {
